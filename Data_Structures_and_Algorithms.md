@@ -78,6 +78,10 @@
 
      如果把关键字**`const`**加在引用返回的函数头上,就得到了**<font color=blue>const引用返回(cosnt reference return)</font>**. const型引用返回无法改变返回值内容. 调用此类型的函数时, 必须在返回调用环境前将值赋给const常量.
 
+### 重载函数
+
+一个函数的**签名(signature)**是由这个函数的*形参类型以及形参个数*确定的. 定义多个同名函数的机制称为**<font color=blue>函数重载(function overloading)</font>**. 例如程序[`0006-Reference_Return.cpp`](./0001-C++_Review/0006-Reference_Return.cpp)中`setvalue`就重载了.
+
 
 
 # 附录
@@ -92,4 +96,5 @@
 | 结构体操作符重载 | Structure_Operator_Overloading |
 | 引用参数         | Reference_Parameter            |
 | 常量引用         | Const_Reference                |
+| 引用返回         | Reference_Return               |
 
