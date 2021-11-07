@@ -2,17 +2,20 @@
 
 using namespace std;
 
+// 引用返回
 template <class T>
 T& setValue(T& z){
     return z;
 }
 
+// 引用返回
 template <class Ta, class Tb>
 Ta& setValue(Ta& a, Tb b){
     a = b;
     return a;
 }
 
+// const型引用返回
 template <class T>
 const T& setConstValue(T& z){
     z = 'l';    // 可以在返回之前赋值
