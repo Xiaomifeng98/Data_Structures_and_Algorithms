@@ -2,6 +2,7 @@
 
 using namespace std;
 
+// 转到文件./0003...cpp看看传值参数和引用参数地址有什么不同
 template <class T>
 T abc(T a, T b, T c){
 	return a + b + c;
