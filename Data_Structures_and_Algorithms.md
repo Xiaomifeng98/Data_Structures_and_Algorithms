@@ -53,7 +53,7 @@
      z = abc(x, y, z);
      ```
 
-     另外, 程序 1-3更通用的[程序](./0001-C++_Review/0005-Template_Function_Plus.cpp)如下:
+     另外, 程序 1-3更通用的[程序](./0001-C++_Review/001-Function_And_Parameters/0005-Template_Function_Plus.cpp)如下:
 
      ```c++
      // 程序 1-4
@@ -66,7 +66,7 @@
      ```
 
 
-### [返回值](./0001-C++_Review/0006-Reference_Return.cpp)
+### [返回值](./0001-C++_Review/001-Function_And_Parameters/0006-Reference_Return.cpp)
 
 因为函数所计算出的表达式结果被存在一个局部的临时变量中, 当函数结束时这个临时变量(以及所有其他的临时变量, 局部变量, 传值参数)所占用的空间将被释放, 其值也不再有效. 
 
@@ -80,7 +80,42 @@
 
 ### 重载函数
 
-一个函数的**签名(signature)**是由这个函数的*形参类型以及形参个数*确定的. 定义多个同名函数的机制称为**<font color=blue>函数重载(function overloading)</font>**. 例如程序[`0006-Reference_Return.cpp`](./0001-C++_Review/0006-Reference_Return.cpp)中`setvalue`就重载了.
+一个函数的**签名(signature)**是由这个函数的*形参类型以及形参个数*确定的. 定义多个同名函数的机制称为**<font color=blue>函数重载(function overloading)</font>**. 例如程序[`0006-Reference_Return.cpp`](./0001-C++_Review/001-Function_And_Parameters/0006-Reference_Return.cpp)中`setvalue`就重载了.
+
+## 异常
+
+### [抛出异常](./0001-C++_Review/002-Exception/0001-Throw_Exception.cpp)
+
+可以编写这样的C++程序, 可以对一些异常情况进行检查. 而且当检查出一个异常时,就抛出异常.
+
+```c++
+// 程序 2-1
+template <class T>
+T abc(T a, T b, T c){
+	if (c <= 0) {
+		throw "The first parameter is less than or equal to 0";
+	}
+	return (a + b) / c;
+}
+```
+
+### [处理异常](./0001-C++_Review/002-Exception/0002-Handle_Exception.cpp)
+
+异常的处理使用**`try-catch`**模式, `try`获取异常, `catch`处理异常. 例如程序 2-2:
+
+```c++
+// 程序 2-2
+// 捕捉到异常后不会在try中继续往下执行, 直接跳转到catch中
+try {
+	...
+} catch ( /* 异常类型-1 */ ) {
+	...
+} catch ( /* 异常类型-2 */ ) {
+	...
+}
+```
+
+
 
 
 
@@ -97,4 +132,13 @@
 | 引用参数         | Reference_Parameter            |
 | 常量引用         | Const_Reference                |
 | 引用返回         | Reference_Return               |
+| 抛出异常         | Throw_Exception                |
+| 处理异常         | Handle_Exception               |
 
+
+
+## 小想法
+
+**2021/11/10**
+
+>   上班回家, 女朋友还在上课. emmmm.... 玩儿游戏的话键盘鼠标噼里啪啦, 算了, 看看书啥的吧.
