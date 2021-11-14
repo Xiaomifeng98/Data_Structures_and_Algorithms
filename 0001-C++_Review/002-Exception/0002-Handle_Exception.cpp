@@ -5,7 +5,7 @@ using namespace std;
 template <class T>
 T abc(T a, T b, T c){
 	if (c == 0) {
-		throw "----------------------------------------\nERROR: The first parameter is equal to 0\n----------------------------------------";
+		throw "------------------------------------------\nERROR: The lastest parameter is equal to 0\n------------------------------------------";
 	} else if (c < 0)
 	{
 		throw 2;
@@ -15,7 +15,7 @@ T abc(T a, T b, T c){
 
 int main() {
 
-	int x = 5, y = 4, z = -10;
+	int x = 0, y = 4, z = 0;
 	try { // 捕捉到异常后不会在try中继续往下执行, 直接跳转到catch中
 		cout << abc(x, y, z) << endl;
 		cout << abc(5, 5, 5) << endl;

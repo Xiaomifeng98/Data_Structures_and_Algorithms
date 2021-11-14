@@ -82,6 +82,8 @@
 
 一个函数的**签名(signature)**是由这个函数的*形参类型以及形参个数*确定的. 定义多个同名函数的机制称为**<font color=blue>函数重载(function overloading)</font>**. 例如程序[`0006-Reference_Return.cpp`](./0001-C++_Review/001-Function_And_Parameters/0006-Reference_Return.cpp)中`setvalue`就重载了.
 
+
+
 ## 异常
 
 ### [抛出异常](./0001-C++_Review/002-Exception/0001-Throw_Exception.cpp)
@@ -89,7 +91,7 @@
 可以编写这样的C++程序, 可以对一些异常情况进行检查. 而且当检查出一个异常时,就抛出异常.
 
 ```c++
-// 程序 2-1
+// 程序 1-5
 template <class T>
 T abc(T a, T b, T c){
 	if (c <= 0) {
@@ -101,10 +103,10 @@ T abc(T a, T b, T c){
 
 ### [处理异常](./0001-C++_Review/002-Exception/0002-Handle_Exception.cpp)
 
-异常的处理使用**`try-catch`**模式, `try`获取异常, `catch`处理异常. 例如程序 2-2:
+异常的处理使用**`try-catch`**模式, `try`获取异常, `catch`处理异常. 例如程序 1-6:
 
 ```c++
-// 程序 2-2
+// 程序 1-6
 // 捕捉到异常后不会在try中继续往下执行, 直接跳转到catch中
 try {
 	...
@@ -114,6 +116,185 @@ try {
 	...
 }
 ```
+
+
+
+## 动态存储空间分配
+
+### 操作符new
+
+C++操作符**`new`**用来进行动态存储分配或运行是存储分配, 它的值**是一个指针, 指向所分配的空间.**
+
+>   例如, 要给一个整数动态分配存储空间, 必须利用下面的语句生命一个整型指针变量(例如`y`):
+>
+>   ```c++
+>   int *y;
+>   ```
+>
+>   当程序需要这个整数时, 就是用下面的语句为这个整数动态分配存储空间:
+>
+>   ```c++
+>   y = new int;
+>   ```
+>
+>   **操作符`new`分配了一块能够存储一个整数的空间, 并<font color=black>将该空间的指针赋值给`y`, `y`是对整数指针的引用, 而`*y`是对整数本身的引用.</font>** 要在动态分配的空间中存储一个整数值, 可以使用下面的语句:
+>
+>   ```c++
+>   *y = 10;
+>   ```
+>
+>   ---
+>
+>   以上三个步骤(声明y, 动态存储分配, 为*y赋值)合并为下面的形式:
+>
+>   ```c++
+>   // 形式 1
+>   int *y = new int;
+>   *y = 10;
+>   
+>   // 形式 2
+>   int *y = new int(10);
+>   
+>   // 形式 3
+>   int *y;
+>   y = new int(10);
+>   ```
+
+### 一维数组
+
+为了在运行是创建一个一维浮点型数组`x`, 必须把`x`声明为一个浮点型指针, 然后维数组分配足够的空间.
+
+>例如, 一个长度为n的一维浮点数组可以按照以下方式来创建:
+>
+>```c++
+>float *x = new float[n];
+>```
+>
+>操作符`new`为n个浮点数分配了存储空间, 并**返回第一个浮点数空间的指针**.
+
+### new异常处理
+
+执行语句`float *x = new float[n]`可能会出现这样的情况: 对n个浮点数计算机==没有足够的内存可以分配==. 在这样的情况下==`new`也不会分配内存==, 而是==抛出一个类型为`bad_alloc`的异常==. 
+
+```c++
+// 程序 1-7
+float *x;
+try {
+	x = new float[10000000000];
+} catch (bad_alloc e){
+	cerr << "Out of memory" << endl;
+	exit(1);
+}
+```
+
+### 操作符delete
+
+动态分配的存储空间不再需要时应该把它释放. 释放的空间可重新用来动态分配. 操作符`delete`用来释放由操作符`new`所分配的空间.
+
+```c++
+// 程序 1-8
+int *y = new int(10);
+delete y;
+
+float *x = new float[10];
+delete []x;
+// Or
+// delete x;
+```
+
+### 二维数组
+
+1.   **如果数组编译时列数已知**, 可以采用下面的语法来动态分配存储空间:
+
+     ```c++
+     // 程序 1-9
+     char (*c) [5];
+     try {
+     	c = new char[n][5];
+     } catch (bad_alloc e){
+     	cerr << "Out of memory" << endl;
+     	exit(1);
+     }
+     ```
+
+     在运行时, 这种数组的行数n要么通过计算来确定, 要么由用户通过输入来指定. 
+
+2.   **如果数组编译时列数未知**, 那么不可能仅调用一次new就能创建这个二维数组(即使数组的行数在编译时已知). 要构造这样的二维数组, 可以把它看作是由若干行所构成的结构, 每一行都是一个能用new来创建的一维数组. 指向每一行的指针保存在另外一个一维数组之中.
+
+     >   如下图建立了一个3×5数组x所需要的结构:
+     >
+     >   ![image-20211114125456016](./9999-Pictures_And_Others/image-20211114125456016.png)
+     >
+     >   <center>图 1-1 一个3×5数组的存储结构</center>
+     >
+     >   x[0], x[1]和x[2]分别指向第0行, 第1行和第2行的<font color=black>**首元素**</font>. 如果x是一个字符数组, 那么x[0:2]是指向字符的指针, 而x本身是指向指针的指针, x的生命语法如下所示:
+     >
+     >   ```c++
+     >   char **x;
+     >   ```
+
+     程序 1-10创建了如图 1-1所示的存储结构. 该程序创建一个类型为T的二维数组. 程序首先为**指针**x[0], ..., x[numberOfRows]申请空间. 然后为数组的每一行申请空间.
+
+     ```c++
+     // 程序 1-10 为一个二维数组分配存储空间
+     template <class T>
+     bool make2dArray(T ** &x, int numberOfRows, int numberOfColumns) {
+     	try {
+     		// 创建行指针
+     		x = new T * [numberOfRows];
+     
+     		// 为每一行分配空间
+     		for (int i = 0; i < numberOfRows; i++) {
+     			x[i] = new int [numberOfColumns];
+     		}
+     		return true;
+     	} catch(bad_alloc) {
+     		return false;
+     	}
+     }
+     ```
+
+     程序 1-10中函数**`make2dArray`**在异常出现时可以什么都不做, **调用者可以捕获**操作符new抛出的任何异常.
+
+     ```c++
+     // 程序 1-11 创建一个二维数组, 没有异常处理
+     template <class T>
+     void make2dArray(T ** &x, int numberOfRows, int numberOfColumns) {
+     	// 创建行指针
+     	x = new T * [numberOfRows];
+     
+     	// 为每一行分配空间
+     	for (int i = 0; i < numberOfRows; i++)
+     	{
+     		x[i] = new int [numberOfColumns];
+     	}
+     }
+     
+     try {
+     	make2dArray(a, 3, 5);
+     	cout << "Successfully created array." << endl;
+     } catch (bad_alloc) {
+     	cerr << "Failed to create array." << endl;
+     	exit(1);
+     }
+     ```
+
+3.   **释放在函数`make2Array`中分配的空间**. 分为两步来释放程序 1-10的二维数组空间. 
+
+     -   释放在for循环中为每一行所分配的空间
+     -   释放为行指针所分配的空间
+
+     ```c++
+     template <class T>
+     void delete2dArray(T ** &x, int numberOfRows) {
+     	for (int i = 0; i < numberOfRows; i++) {
+     		delete [] x[i];
+     	}
+     
+     	delete [] x;
+     	x = NULL;	// 防止用户继续访问已被释放的空间
+     }
+     ```
 
 
 
@@ -142,3 +323,7 @@ try {
 **2021/11/10**
 
 >   上班回家, 女朋友还在上课. emmmm.... 玩儿游戏的话键盘鼠标噼里啪啦, 算了, 看看书啥的吧.
+
+**2021/11/14**
+
+>   距离女朋友下课还有半个小时, 看一会儿再买饭.
