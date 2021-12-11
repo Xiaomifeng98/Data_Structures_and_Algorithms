@@ -76,7 +76,7 @@
 
 2.   **const型引用返回**
 
-     如果把关键字**`const`**加在引用返回的函数头上,就得到了**<font color=blue>const引用返回(cosnt reference return)</font>**. const型引用返回无法改变返回值内容. 调用此类型的函数时, 必须在返回调用环境前将值赋给const常量.
+     如果把关键字**`const`**加在引用返回的函数头上,就得到了**<font color=blue>const引用返回(const reference return)</font>**. const型引用返回无法改变返回值内容. 调用此类型的函数时, 必须在返回调用环境前将值赋给const常量.
 
 ### 重载函数
 
@@ -304,7 +304,25 @@ delete []x;
 
 定义自有数据类型最灵活的方式就是使用C++的类(class)结构. [点击此处查看定义的类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0001-Class_currency.cpp)
 
-成员函数`getSign`, `getDollars`, `getCents`返回调用对象的相应数据成员, 关键字**`const`**指明**这些函数不会改变调用对象的值**. 这种函数成为**常量函数**.
+成员函数`getSign`, `getDollars`, `getCents`返回调用对象的相应数据成员, 关键字**`const`**指明**这些函数不会改变调用对象的值**. 这种函数成为**<font color=blue>常量函数(constant function)</font>**.
+
+>   -   成员函数`add`把调用对象的货币值与参数对象(即作为参数的currency类对象)的货币值相加, 然后返回相加后的结果. 因为这个成员函数不会改变调用对象的值, 所以他是一个常量函数.
+>
+>   -   成员函数`increment`把参数对象的货币之加到调用对象上, 这个函数改变了调用对象的值, 因此它不是一个常量函数.
+>
+>   -   最后一个成员函数`output`把调用对象插入输出流cout中来显示它的值, 不会改变调用对象, 因此是个常量函数.
+
+成员函数如果不在类声明体内部实现, 而在外部实现, 就必须使用**<font color=blue>作用域说明符(scope resolution operator) `::` </font>**以指明该函数是currency类的成员函数.
+
+类currency的数据成员已经设为私有(private), 类的用户不能直接访问这些成员. 因此用户通过对象直接改变私有数据成员的值是允许的.
+
+```c++
+h.cents = 20;
+h.dollars = 100;
+h.sign = plus;
+```
+
+
 
 
 
