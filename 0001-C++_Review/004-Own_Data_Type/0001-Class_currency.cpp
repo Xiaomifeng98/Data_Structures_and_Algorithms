@@ -53,8 +53,9 @@ currency::currency(signType theSign, unsigned long theDollars, unsigned int theC
     setValue(theSign, theDollars, theCents);
 }
 
-currency::~currency(){
-
+currency::~currency()
+{
+    // Nothing to do
 }
 
 void currency::setValue(signType theSign, unsigned long theDollars, unsigned int theCents)
