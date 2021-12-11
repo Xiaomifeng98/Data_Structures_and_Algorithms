@@ -322,7 +322,11 @@ h.dollars = 100;
 h.sign = plus;
 ```
 
+### 类currency另一种描述方法
 
+假设已经有许多应用程序采用了上面例子中的currency类, 现在我们想要修改对currency类对象的数据描述, 是应用最多的两个成员函数`add`和`increment`运行更快, 进而提高应用程序的执行速度.
+
+<font color=red style="background: yellow">**因为用户仅仅通过共有部分所提供的接口与currency类进行交互, 所以对私有部分的修改不会影响程序的正确性.**</font> 因此私有部分修改, 而应用程序不用修改. [点击此处查看另一种方式实现类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)
 
 
 
@@ -357,3 +361,7 @@ h.sign = plus;
 **2021/12/7**
 
 >   挺晚的了, 先把currency这个类写完, 具体实现周六周日再学习.
+
+**2021/12/11**
+
+>   竟然没有心情玩儿游戏, 提交完这一笔就去女朋友那儿玩儿去哈哈哈哈或或或或或或或或
