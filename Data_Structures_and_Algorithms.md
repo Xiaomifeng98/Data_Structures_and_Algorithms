@@ -298,6 +298,14 @@ delete []x;
 
 
 
+## 自有数据类型
+
+### 类currency
+
+定义自有数据类型最灵活的方式就是使用C++的类(class)结构. [点击此处查看定义的类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0001-Class_currency.cpp)
+
+成员函数`getSign`, `getDollars`, `getCents`返回调用对象的相应数据成员, 关键字**`const`**指明**这些函数不会改变调用对象的值**. 这种函数成为**常量函数**.
+
 
 
 # 附录
