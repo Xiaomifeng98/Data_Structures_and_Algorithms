@@ -328,6 +328,12 @@ h.sign = plus;
 
 <font color=red style="background: yellow">**因为用户仅仅通过共有部分所提供的接口与currency类进行交互, 所以对私有部分的修改不会影响程序的正确性.**</font> 因此私有部分修改, 而应用程序不用修改. [点击此处查看另一种方式实现类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)
 
+### 操作符重载
+
+上面currency类的成员函数`add`和`increment`分别实现的是+和+=的功能. 为了使用这些操作符, 可以进行<font color=blue>**操作符重载(operator overloading)**</font>. 以及重载c++的流插入操作符`<<`. [本节对应代码点击此处查看.](./0001-C++_Review/004-Own_Data_Type/0003-Class_currency_Overloading.cpp)
+
+`+`与`+=`在类内进行操作符重载, 可以直接访问私有成员`amount`, 但是`<<`在类外进行重载, 不属于类currency的成员, 所以不能直接进行类似于`x.amount`的操作, 所以在重载`<<`时调用函数`output`进行辅助.
+
 
 
 # 附录
@@ -365,3 +371,7 @@ h.sign = plus;
 **2021/12/11**
 
 >   竟然没有心情玩儿游戏, 提交完这一笔就去女朋友那儿玩儿去哈哈哈哈或或或或或或或或
+
+**2021/12/12**
+
+>   双十二竟然没有什么想买的...学习学习
