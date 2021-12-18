@@ -334,6 +334,24 @@ h.sign = plus;
 
 `+`与`+=`在类内进行操作符重载, 可以直接访问私有成员`amount`, 但是`<<`在类外进行重载, 不属于类currency的成员, 所以不能直接进行类似于`x.amount`的操作, 所以在重载`<<`时调用函数`output`进行辅助.
 
+### 友元和保护性类成员
+
+在一些程序中，我们需要**给予别的类和函数直接访问该类私有成员的权利**, 这就需要把这些类和函数声明为该类的<font color=blue>**友元(friend)**</font>.
+
+在程序[0003-Class_currency_Overloading.cpp](./0001-C++_Review/004-Own_Data_Type/./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)中为了对操作符`<<`重载, 定义了成员函数output间接访问私有数据成员amount. 如果把`ostream& operator<<`声明为currency类的友元, 它就可以直接访问currency类的所有成员. 这时就不需要另外定义成员函数`output`. 
+
+***为了格式统一, friend语句总是紧跟在类标题语句之后:***
+
+```c++
+class currency{
+    friend ostream& operator<<(ostream&, constCurrency&);
+public:
+    ....
+}
+```
+
+
+
 
 
 # 附录
@@ -375,3 +393,8 @@ h.sign = plus;
 **2021/12/12**
 
 >   双十二竟然没有什么想买的...学习学习
+
+**2021/12/18**
+
+>   不想上班【痛苦面具】
+
