@@ -398,6 +398,33 @@ int main() {
 
 
 
+## 递归函数
+
+<font color=blue>**递归函数(recursive function)**</font>或方法自己调用自己. 在<font color=blue>**直接递归(direct recursion)**</font>中, 递归函数f的代码包含了调用f的语句. <font color=blue>**间接递归(indirect recursion)**</font>中, 递归函数f调用了函数g, g又调用了h...如此进行下去直到又调用了f. 
+
+### 递归的数学函数
+
+数学中经常有这样的函数: 自己定义自己. 例如, n的阶乘函数 *f(n)=n!* , n为整数:
+$$
+f(n) = 
+\begin{cases}
+1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ,\ n\le1\\
+nf(n-1),\ n>0\\
+\end{cases}
+$$
+假定 *f(n)* 是直接递归的, 要使函数 *f(n)* 的递归定义有一个完全的形式, 需要满足以下条件:
+
+-   有一个<font color=blue>**基础部分(base component)**</font>, 它包含 *n* 的一个或多个值, 对这些值, *f(n)* 是直接定义的(也就是不用递归就能求解).
+-   另一个<font color=blue>**递归部分(recursive component)**</font>, 右侧 *f*有一个参数小于 *n* ,因此重复应用递归部分可以把右侧 *f* 的表达式转换为基础部分.
+
+另一个例子是**斐波那契数列**:
+$$
+F_0 = 0, F_1 = 1, F_n = F_{n-1} + F_{n-2}\ \ (n>1)
+$$
+其中, *F<sub>0</sub> = 0* 和 *F<sub>1</sub> = 1* 是基础部分, *F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>* 是递归部分.
+
+
+
 
 
 # 附录
