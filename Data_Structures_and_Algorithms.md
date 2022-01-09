@@ -254,7 +254,7 @@ delete []x;
      }
      ```
 
-     程序 1-10中函数**`make2dArray`**在异常出现时可以什么都不做, **调用者可以捕获**操作符new抛出的任何异常.
+     程序 1-11中函数**`make2dArray`**在异常出现时可以什么都不做, **调用者可以捕获**操作符new抛出的任何异常.
 
      ```c++
      // 程序 1-11 创建一个二维数组, 没有异常处理
@@ -352,6 +352,52 @@ public:
 
 
 
+## 异常类illegalParametetValue
+
+程序 1-12是**用户自定义**的一个类`illegalParameterValue`. 当一个函数的实参值无意义时, 要抛出的异常就是这个类型. 程序 1-13是程序 1-5的另一个版本: 程序 1-13抛出的异常类型是`illegalParameterValue`, 而程序 1-5抛出的异常类型是`const char*`. 程序 1-14显示的是如何捕获illegalParameterValue类型的异常.
+
+```c++
+// 程序 1-12
+class illegalParameterValue {
+public:
+    illegalParameterValue():
+        message("illegal parameter value"){}
+    illegalParameterValue(string theMessage) {
+    // illegalParameterValue(const char* theMessage) {
+        message = theMessage;
+    }
+    void outputMessage() { cout << message << endl; }
+private:
+    string message;
+    // const char* message
+};
+```
+
+```c++
+// 程序 1-13
+template <class T>
+T abc(T a, T b, T c){
+    if (c <= 0) {
+        throw illegalParameterValue("The first parameter is less than or equal to 0");
+    }
+    return (a + b) / c;
+}
+```
+
+```c++
+// 程序 1-14
+int main() {
+    try {
+        abc(1, 2, 0);
+    } catch (illegalParameterValue e) {
+        e.outputMessage();
+    }
+    return 0;
+}
+```
+
+
+
 
 
 # 附录
@@ -398,3 +444,6 @@ public:
 
 >   不想上班【痛苦面具】
 
+**2022/1/9**
+
+>   20天没写了, 梦想? 生活? 我在干嘛?
