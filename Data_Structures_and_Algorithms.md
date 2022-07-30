@@ -423,6 +423,87 @@ F_0 = 0, F_1 = 1, F_n = F_{n-1} + F_{n-2}\ \ (n>1)
 $$
 其中, *F<sub>0</sub> = 0* 和 *F<sub>1</sub> = 1* 是基础部分, *F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>* 是递归部分.
 
+### 归纳
+
+有关递归函数的第二个概念: **归纳证明**. 尝试证明下列公式:
+$$
+\sum^n_{i=0}=\frac{n(n+1)}{2}\ \ n\ge0
+$$
+<b><sub>这点就不证明了.</sub></b> 这种证明方法有三个部分: <font color=blue>**归纳基础(induction base)**</font>, <font color=blue>**归纳假设(induction hypothesis)**</font>和<font color=blue>**归纳步骤(induction step)**</font>.
+
+### C++递归函数
+
+使用C++编写递归函数==<font color=red>**必须包含基础部分.**</font>== 每次递归调用, 其参数值都比上一次的参数值要小, 从而重复调用递归函数使参数值达到基础部分的值.
+
+```c++
+// 程序 1-15
+// 计算n的阶乘
+int factorial(int n) {
+    return (n == 1) ? 1 : (n * factorial(n - 1));
+}
+```
+
+```c++
+// 程序 1-16
+// 模板函数sum对数组元素a[0]~a[n-1](简记为a[0:n-1])求和, 当n=0时， 函数返回值是0.
+// 普通叠加
+template<class T>
+T sum(T a[], int n) {
+    T theSum = 0;
+    for (int i = 0; i < n; i++)
+        theSum += a[i];
+    return theSum;
+}
+```
+
+```c++
+// 程序 1-17
+// 模板函数sum对数组元素a[0]~a[n-1](简记为a[0:n-1])求和, 当n=0时， 函数返回值是0.
+// 使用递归
+template<class T>
+T sum(T a[], int n) {
+        return  n > 0 ? sum(a, n - 1) + a[n - 1] : 0;
+}
+```
+
+```c++
+// 程序 1-18
+// 排列, 输出n个元素的所有排列组合
+static int K = 0;
+
+template<class T>
+void swap(T &a, T &b) {
+    T temp;
+    temp = a;
+    a = b;
+    b = temp;
+}
+
+template<class T>
+void permutation(T list[], int k, int m) {
+    if (k == m) {
+        // 书上的程序在这里没有K, 只能输出0~m的所有排列;
+        // 带上了之后就正常了
+        copy(list + K, list + m + 1, ostream_iterator<T>(cout, ""));
+        cout << endl;
+    } else {
+        for (int i = k; i <= m; i++)
+        {
+            ::swap(list[k], list[i]);	// 标准库中也有swap, 所以这里带上::
+            permutation(list, k + 1, m);
+            ::swap(list[k], list[i]);
+        }
+    }
+}
+
+int main(int argc, char const *argv[]) {
+    int a[10] = {0, 1, 2, 3};
+    K = 1;
+    permutation(a, K, 3);
+    return 0;
+}
+```
+
 
 
 
