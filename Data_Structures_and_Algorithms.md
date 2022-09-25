@@ -302,7 +302,7 @@ delete []x;
 
 ### 类currency
 
-定义自有数据类型最灵活的方式就是使用C++的类(class)结构. [点击此处查看定义的类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0001-Class_currency.cpp)
+定义自有数据类型最灵活的方式就是使用C++的类(class)结构. [`点击此处查看定义的类currency的代码.`](./0001-C++_Review/004-Own_Data_Type/0001-Class_currency.cpp)
 
 成员函数`getSign`, `getDollars`, `getCents`返回调用对象的相应数据成员, 关键字**`const`**指明**这些函数不会改变调用对象的值**. 这种函数成为**<font color=blue>常量函数(constant function)</font>**.
 
@@ -326,11 +326,11 @@ h.sign = plus;
 
 假设已经有许多应用程序采用了上面例子中的currency类, 现在我们想要修改对currency类对象的数据描述, 是应用最多的两个成员函数`add`和`increment`运行更快, 进而提高应用程序的执行速度.
 
-<font color=red style="background: yellow">**因为用户仅仅通过共有部分所提供的接口与currency类进行交互, 所以对私有部分的修改不会影响程序的正确性.**</font> 因此私有部分修改, 而应用程序不用修改. [点击此处查看另一种方式实现类currency的代码.](./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)
+<font color=red style="background: yellow">**因为用户仅仅通过共有部分所提供的接口与currency类进行交互, 所以对私有部分的修改不会影响程序的正确性.**</font> 因此私有部分修改, 而应用程序不用修改. [`点击此处查看另一种方式实现类currency的代码.`](./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)
 
 ### 操作符重载
 
-上面currency类的成员函数`add`和`increment`分别实现的是+和+=的功能. 为了使用这些操作符, 可以进行<font color=blue>**操作符重载(operator overloading)**</font>. 以及重载c++的流插入操作符`<<`. [本节对应代码点击此处查看.](./0001-C++_Review/004-Own_Data_Type/0003-Class_currency_Overloading.cpp)
+上面currency类的成员函数`add`和`increment`分别实现的是+和+=的功能. 为了使用这些操作符, 可以进行<font color=blue>**操作符重载(operator overloading)**</font>. 以及重载c++的流插入操作符`<<`. [`本节对应代码点击此处查看.`](./0001-C++_Review/004-Own_Data_Type/0003-Class_currency_Overloading.cpp)
 
 `+`与`+=`在类内进行操作符重载, 可以直接访问私有成员`amount`, 但是`<<`在类外进行重载, 不属于类currency的成员, 所以不能直接进行类似于`x.amount`的操作, 所以在重载`<<`时调用函数`output`进行辅助.
 
@@ -338,7 +338,7 @@ h.sign = plus;
 
 在一些程序中，我们需要**给予别的类和函数直接访问该类私有成员的权利**, 这就需要把这些类和函数声明为该类的<font color=blue>**友元(friend)**</font>.
 
-在程序[0003-Class_currency_Overloading.cpp](./0001-C++_Review/004-Own_Data_Type/./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)中为了对操作符`<<`重载, 定义了成员函数output间接访问私有数据成员amount. 如果把`ostream& operator<<`声明为currency类的友元, 它就可以直接访问currency类的所有成员. 这时就不需要另外定义成员函数`output`. 
+在程序[`0003-Class_currency_Overloading.cpp`](./0001-C++_Review/004-Own_Data_Type/0002-Class_currency_another.cpp)中为了对操作符`<<`重载, 定义了成员函数output间接访问私有数据成员amount. 如果把`ostream& operator<<`声明为currency类的友元, 它就可以直接访问currency类的所有成员. 这时就不需要另外定义成员函数`output`. 
 
 ***为了格式统一, friend语句总是紧跟在类标题语句之后:***
 
@@ -501,6 +501,80 @@ int main(int argc, char const *argv[]) {
     K = 1;
     permutation(a, K, 3);
     return 0;
+}
+```
+
+
+
+## 标准模板库(STL)
+
+<font color=blue>**C++标准模板库(STL)**</font>是一个容器, 适配器, 迭代器, 函数对象(也称仿函数)和算法的集合. 有效使用STL, 应用程序的设计会简单许多.
+
+### STL 算法 accumulate
+
+这个算法是对顺序表元素顺序累计求和, 它的语法是
+$$
+accumulate(start,\ end,\ initialValue)
+$$
+其中, start指向首元素, ==**end指向尾元素的下一个位置**==. 调用语句是`accumulate(a, a+n, initialValue)`, a是一个一维数组, 返回值是
+$$
+initialValue\ +\ \sum^{n-1}_{i=0}a[i]
+$$
+可以查看程序[`0001_STL_accumulate.cpp`](./0001-C++_Review/007_STL/0001_STL_accumulate.cpp)
+
+```c++
+// 程序 1-19
+// 设计了模板函数, 对书上的代码有一点优化·
+template<class T>
+T sum(T a[], int n, T initialValue = 0) {
+    return accumulate(a, a+n, initialValue);    // 返回数组a[0：n-1]的累积和 + initialValue
+}
+```
+
+STL算法accumulate还有一个更通用的形式，语法如下
+$$
+accumulate(start,\ end,\ initialValue,\ operator)
+$$
+其中, `operator`是一个函数, 他规定了在累计过程中的操作, 例如, 利用STL的函数对象`multipllies`能够计算数组元素的乘积. 可查看程序[`0002_STL_accumulate_multiplies.cpp`](./0001-C++_Review/007_STL/0002_STL_accumulate_multiplies.cpp)
+
+```c++
+// 程序 1-20
+template<class T>
+T product(T a[], int n, T initialValue = 1) {
+    // 返回数组a[0：n-1]的累积乘积 x initialValue
+    return accumulate(a, a+n, initialValue, multiplies<T>());
+}
+```
+
+### STL算法copy和next_permutation
+
+**算法copy**把顺序表的元素从一个位置复制到另一个位置. 语法是
+$$
+copy(start,\ end,\ to)
+$$
+其中`to`给出了第一个元素要复制到的位置. 因此, **元素从位置start, start+1, ... , end-1依次复制到to, to+1, ... , to+end-start.**
+
+算法next_permutation语法是
+$$
+next\_permutation(start,\ end)
+$$
+另外还有一种用法是
+$$
+next\_permutation(start,\ end,\ compare)
+$$
+函数compare用来判定一个排列是否比另一个排列要小, 而在两个参数的版本中, 比较操作符是由<来执行的.
+
+对范围内[start, end)内的元素, **按字典顺序产生下一个更大的排列.** 当且仅当这个排列存在时, 返回值为true
+
+```c++
+// 程序 1-21
+// 输出下一个更大的序列
+template<class T>
+void permutations(T list[], int k, int m) {
+    do {
+        copy(list + k, list + m, ostream_iterator<T>(cout, ""));
+        cout << endl;
+    } while (next_permutation(list + k, list + m));
 }
 ```
 
