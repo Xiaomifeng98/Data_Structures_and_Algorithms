@@ -578,7 +578,9 @@ void permutations(T list[], int k, int m) {
 }
 ```
 
+另外, 还有个类似的函数是`prev_permutation`, 生成的是下一个等于或小于当前顺序的排序. 参考[`0005_STL_next_permutation_change_order.cpp`](./0001-C++_Review/007_STL/0005_STL_next_permutation_change_order.cpp)
 
+其他一些常用的STL算法可以[点击此处查看](http://c.biancheng.net/stl/algorithms/).
 
 
 
